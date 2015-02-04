@@ -1,0 +1,71 @@
+{
+  "servers": {
+    "orlean": {
+      "host": "172.20.6.12",
+      "user": "emercom",
+      "password": "emercom"
+    },
+    "bordo": {
+      "host": "172.20.6.13",
+      "user": "emercom",
+      "password": "emercom"
+    },
+    "tolosa": {
+      "host": "172.20.6.15",
+      "user": "emercom",
+      "password": "emercom"
+    },
+    "kale": {
+      "host": "172.20.6.18",
+      "user": "emercom",
+      "password": "emercom"
+    },
+    "shamoni": {
+      "host": "172.20.6.19",
+      "user": "emercom",
+      "password": "emercom"
+    },
+    "reims": {
+      "host": "172.20.6.20",
+      "user": "emercom",
+      "password": "emercom"
+    },
+    "caen": {
+      "host": "172.20.6.23",
+      "user": "emercom",
+      "password": "emercom"
+    },
+    "pau": {
+      "host": "172.20.6.24",
+      "user": "emercom",
+      "password": "emercom"
+    },
+    "gavr": {
+      "host": "172.20.6.26",
+      "user": "emercom",
+      "password": "emercom"
+    },
+    "nant": {
+      "host": "172.20.6.27",
+      "user": "emercom",
+      "password": "emercom"
+    },
+    "shartr": {
+      "host": "172.20.6.28",
+      "user": "emercom",
+      "password": "emercom"
+    },
+    "tulon": {
+      "host": "172.20.6.25",
+      "user": "emercom",
+      "password": "emercom"
+    }
+  },
+  "sub_projects": [
+    "emercom",
+    "dev",
+    "api",
+    "pdg_emercom"
+  ],
+  "need_update": false
+}

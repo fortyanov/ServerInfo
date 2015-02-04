@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+<head profile="http://www.w3.org/2005/10/profile">
+    <title>ServerInfo - агрегированная информация с серверов.</title>
+    <link rel="stylesheet" href="bootstrap.min.css">                                            <!-- bootstrap source-->
+    <script src="jquery-2.1.0.min.js"></script>
+    <script src="bootstrap.min.js"></script>                                                    <!-- bootstrap source-->
+    <script src="chosen.jquery.min.js"></script>
+    <link rel="stylesheet" href="bootstrap-theme.min.css">                                      <!-- bootstrap source-->
+    <link rel="stylesheet" href="chosen.css"/>
+
+    <link rel="shortcut icon" href="favicon.png">
+    <style>
+        .FATAL, .old{
+            color: red;
+        }
+        .RUNNING, .latest {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+<div class="well">
+    <form action="/" method="GET" class="form-inline" role="form">
+        <div class="form-group">
+            <select name="servers_names" id="servers_names" class="form-control" multiple style="width: 400px;">
+                %for one_server in all_servers:
+                <option value="{{one_server}}">{{one_server}}</option>
+                %end
+            </select>
+        </div>
+        <input type="submit" name="update" value="Обновить" class="btn btn-default">
+        
+    </form>
+    <small>Последнее обновление: {{timestamp}}</small>
+    
+</div>
+<div class="container_12" style="margin-left: 3%">
+    <div class="row">
+    <!-- Табличный вариант -->
+        %for one_server in servers:
+        <div style="float:left; text-align: center; margin-left: 10px; height: 550px" class="span4">
+            <table class="table table-bordered table-condensed">
+                <tr><td colspan="3">
+                    <h3>{{one_server}}</h3>
+                </td></tr>
+                <tr>
+                    <th>Процесс</th>
+                    <th>Статус</th>
+                    <th>Время в работе</th>
+                </tr>
+                %for one_proc in servers[one_server]['status']:
+                <tr>
+                    <td>{{one_proc['proc_name']}}</td>
+                    <td class="{{one_proc['proc_status']}}">{{one_proc['proc_status']}}</td>
+                    <td style="text-align:left;">{{one_proc['proc_data']}}</td>
+                </tr>
+                %end
+                <tr>
+                    <th>Подпроект</th>
+                    <th>Версия</th>
+                    <th>Информация из git</th>
+                </tr>
+                %for one_subProj in servers[one_server]['sub_projects']:
+                <tr>
+                    <td>{{one_subProj}}</td>
+                    <td>
+                        %if servers[one_server]['sub_projects'][one_subProj]['version'] == servers[one_server]['sub_projects'][one_subProj]['latest_version']:
+                        {{servers[one_server]['sub_projects'][one_subProj]['version']}} (<span class="latest">актуальная</span>)
+                        %else:
+                        {{servers[one_server]['sub_projects'][one_subProj]['version']}} (<span class="old">старая</span>, актуальная: {{servers[one_server]['sub_projects'][one_subProj]['latest_version']}})
+                        %end
+                    </td>
+                    <td style="text-align:left;">
+                        %if servers[one_server]['sub_projects'][one_subProj]['git_data']['branch']:
+                        <strong>ветка:</strong> {{servers[one_server]['sub_projects'][one_subProj]['git_data']['branch']}}<br>
+                        <strong>ревизия:</strong> <a href="http://gitlab/emercom-3/{{one_subProj}}/commit/{{servers[one_server]['sub_projects'][one_subProj]['git_data']['revision']}}" target="_blank">{{servers[one_server]['sub_projects'][one_subProj]['git_data']['revision']}}</a><br>
+                        <strong>комментарий:</strong> {{servers[one_server]['sub_projects'][one_subProj]['git_data']['comment']}}
+                        %else:
+                        Нет данных
+                        %end
+                    </td>
+                </tr>
+                %end
+            </table>
+        </div>
+        %end
+</div>
+</div>
+</body>
+
+<script>
+    $("select").chosen()
+    %for s in selected:
+    $("option[value='{{s}}']").attr("selected", "selected")
+    %end
+    $("select").trigger("chosen:updated");
+</script>
+
+</html>
